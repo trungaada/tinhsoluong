@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tính Số Lượng Hàng</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background:#f2f4f8;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+.box{
+    background:white;
+    width:420px;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 5px 20px rgba(0,0,0,.15);
+}
+
+h2{
+    text-align:center;
+    color:#2196F3;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    font-size:18px;
+    margin-top:15px;
+    box-sizing:border-box;
+}
+
+button{
+    width:100%;
+    margin-top:20px;
+    padding:12px;
+    font-size:18px;
+    background:#2196F3;
+    color:white;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#1976D2;
+}
+
+.result{
+    margin-top:25px;
+    background:#f7f7f7;
+    padding:15px;
+    border-radius:10px;
+}
+
+.result p{
+    font-size:20px;
+    margin:10px 0;
+}
+
+span{
+    color:red;
+    font-weight:bold;
+}
+</style>
+
+</head>
+<body>
+
+<div class="box">
+
+<h2>TÍNH SỐ LƯỢNG HÀNG</h2>
+
+<input type="number" id="tong" placeholder="Nhập số lượng">
+
+<button onclick="tinh()">TÍNH</button>
+
+<div class="result">
+<p>PL: <span id="pl">0</span></p>
+<p>Thùng: <span id="thung">0</span></p>
+<p>Số PL: <span id="solo">0</span></p>
+</div>
+
+</div>
+
+<script>
+
+function tinh(){
+
+    let tong = parseInt(document.getElementById("tong").value);
+
+    if(isNaN(tong) || tong<0){
+        alert("Nhập số hợp lệ");
+        return;
+    }
+
+    let soPL = Math.floor(tong/36);
+
+    let pl = soPL*36;
+
+    let thung = tong%36;
+
+    document.getElementById("pl").innerHTML=pl;
+    document.getElementById("thung").innerHTML=thung;
+    document.getElementById("solo").innerHTML=soPL;
+
+}
+
+</script>
+
+</body>
+</html>
