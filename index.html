@@ -6,67 +6,251 @@
 <title>Tính Số Lượng Hàng</title>
 
 <style>
-body{
-    font-family: Arial, sans-serif;
-    background:#f2f4f8;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    height:100vh;
+/* Định nghĩa biến màu sắc để chuyển Dark Mode mượt mà */
+:root {
+    --bg-gradient: linear-gradient(135deg, #74ebd5, #9ecefa);
+    --box-bg: #ffffff;
+    --text-color: #2d3748;
+    --text-muted: #718096;
+    --border-color: #e2e8f0;
+    --input-bg: #f8fafc;
+    --result-bg: #f1f5f9;
+    --primary-color: #3b82f6;
+    --primary-hover: #2563eb;
+    --danger-color: #ef4444;
+    --danger-hover: #dc2626;
+    --success-color: #10b981;
+    --success-hover: #059669;
+    --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
 }
 
-.box{
-    background:white;
-    width:420px;
-    padding:30px;
-    border-radius:15px;
-    box-shadow:0 5px 20px rgba(0,0,0,.15);
+.dark {
+    --bg-gradient: linear-gradient(135deg, #0f172a, #1e293b);
+    --box-bg: #1e293b;
+    --text-color: #f8fafc;
+    --text-muted: #94a3b8;
+    --border-color: #334155;
+    --input-bg: #0f172a;
+    --result-bg: #0f172a;
+    --shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -7px rgba(0, 0, 0, 0.3);
 }
 
-h2{
-    text-align:center;
-    color:#2196F3;
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-input{
-    width:100%;
-    padding:12px;
-    font-size:18px;
-    margin-top:15px;
-    box-sizing:border-box;
+body {
+    background: var(--bg-gradient);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    transition: background 0.4s ease, color 0.3s ease;
+    color: var(--text-color);
 }
 
-button{
-    width:100%;
-    margin-top:20px;
-    padding:12px;
-    font-size:18px;
-    background:#2196F3;
-    color:white;
-    border:none;
-    border-radius:8px;
-    cursor:pointer;
+.box {
+    width: 100%;
+    max-width: 440px;
+    background: var(--box-bg);
+    padding: 35px 30px;
+    border-radius: 24px;
+    box-shadow: var(--shadow);
+    transition: background 0.3s, box-shadow 0.3s;
+    animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
 }
 
-button:hover{
-    background:#1976D2;
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-.result{
-    margin-top:25px;
-    background:#f7f7f7;
-    padding:15px;
-    border-radius:10px;
+/* Header */
+.header-area {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
 }
 
-.result p{
-    font-size:20px;
-    margin:10px 0;
+h2 {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--primary-color);
+    letter-spacing: -0.5px;
 }
 
-span{
-    color:red;
-    font-weight:bold;
+/* Nút chuyển chế độ nhanh góc trên */
+.theme-toggle {
+    background: var(--result-bg);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    transition: 0.2s;
+    color: var(--text-color);
+}
+
+.theme-toggle:hover {
+    transform: scale(1.1);
+}
+
+/* Input */
+.input-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+input {
+    width: 100%;
+    padding: 16px 20px;
+    font-size: 22px;
+    font-weight: 700;
+    border: 2px solid var(--border-color);
+    background: var(--input-bg);
+    color: var(--text-color);
+    border-radius: 14px;
+    outline: none;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+}
+
+input::placeholder {
+    font-weight: normal;
+    font-size: 18px;
+    color: var(--text-muted);
+}
+
+/* Buttons */
+.btns {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+button.btn {
+    padding: 14px 20px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 700;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+button.btn:active {
+    transform: scale(0.97);
+}
+
+.tinh {
+    flex: 2;
+    background: var(--primary-color);
+    color: white;
+}
+
+.tinh:hover {
+    background: var(--primary-hover);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.xoa {
+    flex: 1;
+    background: var(--danger-color);
+    color: white;
+}
+
+.xoa:hover {
+    background: var(--danger-hover);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.copy {
+    width: 100%;
+    background: var(--success-color);
+    color: white;
+}
+
+.copy:hover {
+    background: var(--success-hover);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+/* Kết quả */
+.result {
+    margin-top: 25px;
+    background: var(--result-bg);
+    border-radius: 16px;
+    padding: 20px;
+    transition: background 0.3s;
+    border: 1px solid var(--border-color);
+}
+
+.result-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--border-color);
+}
+
+.result-item:last-child {
+    border-bottom: none;
+}
+
+.result-label {
+    font-size: 16px;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.result-value {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--primary-color);
+}
+
+.result-value.highlight {
+    color: var(--danger-color);
+}
+
+/* Loại bỏ mũi tên tăng giảm mặc định trên input number */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+@media(max-width: 480px){
+    .box {
+        padding: 25px 20px;
+    }
+    h2 {
+        font-size: 19px;
+    }
 }
 </style>
 
@@ -75,43 +259,153 @@ span{
 
 <div class="box">
 
-<h2>TÍNH SỐ LƯỢNG HÀNG</h2>
+    <!-- Header có nút Dark Mode tích hợp -->
+    <div class="header-area">
+        <h2>📦 TÍNH SỐ LƯỢNG HÀNG</h2>
+        <button class="theme-toggle" onclick="dark()" title="Đổi giao diện">
+            <span id="theme-icon">🌙</span>
+        </button>
+    </div>
 
-<input type="number" id="tong" placeholder="Nhập số lượng">
-
-<button onclick="tinh()">TÍNH</button>
-
-<div class="result">
-<p>PL: <span id="pl">0</span></p>
-<p>Thùng: <span id="thung">0</span></p>
-<p>Số PL: <span id="solo">0</span></p>
+    <!-- Ô nhập liệu -->
+    <!-- Ô nhập số lượng -->
+<div class="input-group">
+    <input
+        type="number"
+        id="tong"
+        placeholder="Nhập tổng số lượng..."
+        oninput="tinh()"
+        inputmode="numeric"
+        autocomplete="off">
 </div>
+
+<!-- Chọn quy cách -->
+<div class="input-group">
+    <select id="kichThuoc" onchange="tinh()"
+        style="width:100%;padding:16px;border:2px solid var(--border-color);
+        border-radius:14px;font-size:18px;font-weight:bold;
+        background:var(--input-bg);color:var(--text-color);">
+
+        <option value="36">📦  36</option>
+        <option value="30">📦  30</option>
+    </select>
+</div>
+
+    <!-- Cụm nút điều khiển chính -->
+    <div class="btns">
+        <button class="btn tinh" onclick="tinh()">🧮 Tính Ngay</button>
+        <button class="btn xoa" onclick="xoa()">🗑 Xóa</button>
+    </div>
+
+    <!-- Nút copy tiện ích -->
+    <button class="btn copy" id="btnCopy" onclick="copyKetQua()">📋 Copy Kết Quả</button>
+
+    <!-- Khối hiển thị kết quả trực quan -->
+    <div class="result">
+        <div class="result-item">
+          <div class="result-label" id="labelPL">
+    📦 Tổng số Thùng (x36):
+</div>
+            <div class="result-value" id="pl">0</div>
+        </div>
+        <div class="result-item">
+            <div class="result-label">🧩 Lẻ Thùng:</div>
+            <div class="result-value highlight" id="thung">0</div>
+        </div>
+        <div class="result-item">
+            <div class="result-label">🏷️ Số PL nguyên:</div>
+            <div class="result-value" id="solo">0</div>
+        </div>
+    </div>
 
 </div>
 
 <script>
+// Lắng nghe phím Enter để tính toán nhanh
+document.getElementById("tong").addEventListener("keypress", function(e) {
+    if (e.key === "Enter") {
+        tinh();
+    }
+});
 
-function tinh(){
+// Hàm xử lý logic tính toán
+function tinh() {
 
-    let tong = parseInt(document.getElementById("tong").value);
+    let tongVal = document.getElementById("tong").value;
+    let tong = parseInt(tongVal);
 
-    if(isNaN(tong) || tong<0){
-        alert("Nhập số hợp lệ");
+    if (isNaN(tong) || tong < 0 || tongVal.trim() === "") {
+        resetResult();
         return;
     }
 
-    let soPL = Math.floor(tong/36);
+    let chia = parseInt(document.getElementById("kichThuoc").value);
 
-    let pl = soPL*36;
+    let soPL = Math.floor(tong / chia);
+    let pl = soPL * chia;
+    let thung = tong % chia;
 
-    let thung = tong%36;
+    document.getElementById("labelPL").innerHTML =
+        `📦 Tổng số Thùng (x${chia}):`;
 
-    document.getElementById("pl").innerHTML=pl;
-    document.getElementById("thung").innerHTML=thung;
-    document.getElementById("solo").innerHTML=soPL;
-
+    document.getElementById("pl").innerHTML = pl.toLocaleString("vi-VN");
+    document.getElementById("thung").innerHTML = thung.toLocaleString("vi-VN");
+    document.getElementById("solo").innerHTML = soPL.toLocaleString("vi-VN");
 }
 
+// Hàm reset dữ liệu kết quả về 0
+function resetResult() {
+    document.getElementById("pl").innerHTML = 0;
+    document.getElementById("thung").innerHTML = 0;
+    document.getElementById("solo").innerHTML = 0;
+}
+
+// Hàm dọn dẹp form nhập liệu
+function xoa() {
+    document.getElementById("tong").value = "";
+    resetResult();
+    document.getElementById("tong").focus();
+}
+
+// Hàm Copy kết quả kèm hiệu ứng chuyển đổi chữ thông minh trên button
+function copyKetQua() {
+    let pl = document.getElementById("pl").innerHTML;
+    let thung = document.getElementById("thung").innerHTML;
+    let solo = document.getElementById("solo").innerHTML;
+
+    // Đổi "PL" thành "Thùng"
+    let text = `Thùng: ${pl}
+Thùng lẻ: ${thung}
+Số PL: ${solo}`;
+
+    navigator.clipboard.writeText(text).then(() => {
+        let btnCopy = document.getElementById("btnCopy");
+        let originalText = btnCopy.innerHTML;
+
+        btnCopy.innerHTML = "✓ Đã copy thành công!";
+        btnCopy.style.background = "#059669";
+
+        setTimeout(() => {
+            btnCopy.innerHTML = originalText;
+            btnCopy.style.background = "";
+        }, 2000);
+    }).catch(() => {
+        alert("Không thể copy, vui lòng thử lại!");
+    });
+}
+
+// Hàm đổi giao diện Sáng / Tối mượt mà
+function dark() {
+    let body = document.body;
+    body.classList.toggle("dark");
+    
+    let themeIcon = document.getElementById("theme-icon");
+    if (body.classList.contains("dark")) {
+        themeIcon.innerHTML = "☀️";
+    } else {
+        themeIcon.innerHTML = "🌙";
+    }
+}
 </script>
 
 </body>
